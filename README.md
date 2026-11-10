@@ -67,7 +67,7 @@ Once you have the structure complete you just need to add the JavaScript to the 
   const ghSlug = "webflow"; //replace with your own orgs slug
 </script>
 <script
-  src="https://cdn.jsdelivr.net/gh/webflow-examples/greenhouse-jobs@greenhouse-webflow/script.js"
+  src="https://cdn.jsdelivr.net/gh/Yashwanth-DJ/my-project@v1.0.0/script.js"
   type="text/javascript"
 ></script>
 ```
@@ -79,7 +79,7 @@ Or for the minified version you can use
   const ghSlug = "webflow"; //replace with your own orgs slug
 </script>
 <script
-  src="https://cdn.jsdelivr.net/gh/webflow-examples/greenhouse-jobs@greenhouse-webflow/script.min.js"
+  src="https://cdn.jsdelivr.net/gh/Yashwanth-DJ/my-project@v1.0.0/script.min.js"
   type="text/javascript"
 ></script>
 ```
@@ -148,7 +148,7 @@ Next we call another function, `writeJobs`. Here, we use the ID’s we added to 
 
 ```js
 function writeJobs() {
-  departmentIds.forEach((departmentId) => {
+  const requests = departmentIds.map((departmentId) =>
     fetchData(
       `https://boards-api.greenhouse.io/v1/boards/${ghSlug}/departments/${departmentId}`
     )
@@ -170,15 +170,18 @@ function writeJobs() {
         parentContainer.querySelector('[data-gh="listing"]').remove();
       })
       .catch(console.error)
-      .finally(() => {
-        domElements.loading.classList.add("hidden");
-        domElements.loading.remove();
-        domElements.placeHolder.remove();
-        domElements.root.classList.remove("hidden");
-      });
+  );
+
+  Promise.all(requests).finally(() => {
+    domElements.loading.classList.add("hidden");
+    domElements.loading.remove();
+    domElements.placeHolder.remove();
+    domElements.root.classList.remove("hidden");
   });
 }
 ```
+
+Each request goes into a list, and `Promise.all` waits for all of them before cleaning up, so the loader also clears when a board has no open jobs.
 
 Finally, we remove a class to the job listings to make them visible, and we add a class to fade out the loading element and then remove it from the DOM.
 
