@@ -57,9 +57,10 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // Triggered in finally above
-// Writes all the jobs to the page
+// Writes all the jobs to the page, then hides the loader once every
+// department request has finished (also when there are no departments)
 function writeJobs() {
-  departmentIds.forEach((departmentId) => {
+  const requests = departmentIds.map((departmentId) =>
     fetchData(
       `https://boards-api.greenhouse.io/v1/boards/${ghSlug}/departments/${departmentId}`
     )
@@ -81,11 +82,12 @@ function writeJobs() {
         parentContainer.querySelector('[data-gh="listing"]').remove();
       })
       .catch(console.error)
-      .finally(() => {
-        domElements.loading.classList.add("hidden");
-        domElements.loading.remove();
-        domElements.placeHolder.remove();
-        domElements.root.classList.remove("hidden");
-      });
+  );
+
+  Promise.all(requests).finally(() => {
+    domElements.loading.classList.add("hidden");
+    domElements.loading.remove();
+    domElements.placeHolder.remove();
+    domElements.root.classList.remove("hidden");
   });
 }

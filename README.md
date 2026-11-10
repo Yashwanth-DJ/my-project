@@ -38,7 +38,7 @@ You'll need the following structure:
   - inside the list item should be two elements
     - a text link or link element with an attribute of `data-gh="job-title"`
       - this element also has an attribute of `data-label="role"`
-    - a text element with an attribute of `data-gh="location"`
+    - a text element with an attribute of `data-gh="job-location"`
       - this element also has an attribute of `data-label="location"`
 
 In our example, the extra attributes are used to add labels for mobile using some custom CSS and `::before`.
@@ -64,7 +64,7 @@ Once you have the structure complete you just need to add the JavaScript to the 
 
 ```html
 <script>
-  const ghSlugh = "webflow"; //replace with your own orgs slug
+  const ghSlug = "webflow"; //replace with your own orgs slug
 </script>
 <script
   src="https://cdn.jsdelivr.net/gh/webflow-examples/greenhouse-jobs@greenhouse-webflow/script.js"
@@ -76,7 +76,7 @@ Or for the minified version you can use
 
 ```html
 <script>
-  const ghSlugh = "webflow"; //replace with your own orgs slug
+  const ghSlug = "webflow"; //replace with your own orgs slug
 </script>
 <script
   src="https://cdn.jsdelivr.net/gh/webflow-examples/greenhouse-jobs@greenhouse-webflow/script.min.js"

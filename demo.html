@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Greenhouse Jobs Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 860px; margin: 0 auto; padding: 24px 16px; background: #fff; color: #1a1a1a; }
+    .hidden { opacity: 0; }
+    .placeholder { display: none; }
+    [data-gh="root"], [data-gh="loading"] { transition: opacity .3s; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid #e5e5e5; }
+    a { color: #2457d6; }
+    select { padding: 6px; margin-bottom: 16px; }
+    @media screen and (max-width: 767px) {
+      li { flex-direction: column; gap: 2px; }
+      [data-label]::before { content: attr(data-label) ": "; font-weight: 700; text-transform: uppercase; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Open jobs</h1>
+  <p>Company slug: <strong id="slug-label"></strong> (change it with <code>?slug=stripe</code> in the URL)</p>
+
+  <form onsubmit="return false">
+    <select data-gh="filter" aria-label="Filter by team">
+      <option value="all">All teams</option>
+    </select>
+  </form>
+
+  <div data-gh="loading" class="hidden">Loading jobs…</div>
+  <div data-gh="root" class="hidden"></div>
+
+  <!-- Template that script.js clones for each department -->
+  <div class="placeholder" data-gh="placeholder">
+    <section data-gh="section-wrapper">
+      <h2 data-gh="section-heading">Department</h2>
+      <ul data-gh="container">
+        <li data-gh="listing">
+          <a data-gh="job-title" data-label="role" href="#">Job title</a>
+          <span data-gh="job-location" data-label="location">Location</span>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    const ghSlug = new URLSearchParams(location.search).get("slug") || "discord";
+    document.getElementById("slug-label").textContent = ghSlug;
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
