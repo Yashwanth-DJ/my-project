@@ -1,0 +1,40 @@
+# Rebuilds script.min.js whenever script.js changes on main,
+# so the minified file never falls behind the source.
+name: Rebuild script.min.js
+
+on:
+  push:
+    branches: [main]
+    paths: [script.js]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  minify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check syntax
+        run: node --check script.js
+
+      - name: Minify
+        run: npx --yes terser@5.36.0 script.js --compress --mangle -o script.min.js
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet script.min.js; then
+            echo "script.min.js is already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add script.min.js
+          git commit -m "Rebuild script.min.js"
+          git push

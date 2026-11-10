@@ -214,3 +214,9 @@ The most common way to integrate Greenhouse is to embed an iframe of your board 
 This is easy to implement in Webflow and it empowers your people and recruiting team to quickly update the listings and make changes without having access to your Webflow site.
 
 ‍But, the downside to this approach is that your job board may not match the look and feel of your brand and you lose some design and creative control.
+
+# Updating the script
+
+Edit `script.js` and push to `main`. A GitHub Action (`.github/workflows/minify.yml`) rebuilds `script.min.js` for you.
+
+The CDN links above are pinned to the `v1.0.0` tag. To publish a new version, tag the latest commit (for example `git tag v1.0.1 && git push origin v1.0.1`) and update the links to the new tag.
