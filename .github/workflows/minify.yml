@@ -1,4 +1,4 @@
-# Rebuilds script.min.js whenever script.js changes on main,
+﻿# Rebuilds script.min.js whenever script.js changes on main,
 # so the minified file never falls behind the source.
 name: Rebuild script.min.js
 
@@ -15,9 +15,9 @@ jobs:
   minify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
 
